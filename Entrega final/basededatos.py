@@ -1,4 +1,4 @@
-import ventana
+
 import mysql.connector
 from mysql.connector import Error
 
@@ -52,4 +52,25 @@ def verificar_usuario(conexion,usuario):
     except Error as e:
         print(f"Error al verificar el usuario{e}")
         return False 
-    
+
+def autenticar_usuario(conexion, usuario, contraseña):
+    try:
+        cursor = conexion.cursor(buffered=True)
+        consulta = "SELECT contraseña FROM usuarios WHERE usuario = %s"
+        
+        cursor.execute(consulta, (usuario,))
+        resultado = cursor.fetchone()
+        cursor.close()
+
+        if resultado:
+            contraseña_almacenada = resultado[0]
+            if contraseña_almacenada == contraseña: 
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    except Error as e:
+        print(f"Error al autenticar usuario: {e}")
+        return False

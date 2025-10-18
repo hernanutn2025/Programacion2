@@ -1,16 +1,12 @@
-import basededatos
-    
+from PyQt5.QtWidgets import QApplication
+from ventana import VentanaLogin
+import sys
+
 def main():
-    conexion=basededatos.conectar_base()
-    usuario=input(f"ingresar usuario")
-    contraseña=input(f"ingresar contraseña")
-    email=input(f"ingresar email")
-    basededatos.registrar_usuario(conexion,usuario,contraseña,email)
-    if conexion.is_connected():
-            conexion.close()
-            print("\nConexión a MySQL cerrada.")
-    else:
-        print("\nNo se pudo establecer la conexión a la base de datos.")
+    app = QApplication(sys.argv)
+    login = VentanaLogin()
+    login.show()
+    sys.exit(app.exec_())
     
 if __name__ == "__main__":
     main()
